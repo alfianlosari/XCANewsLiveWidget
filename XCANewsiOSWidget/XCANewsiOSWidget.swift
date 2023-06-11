@@ -16,10 +16,13 @@ struct XCANewsiOSWidget: Widget {
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: SelectCategoryIntent.self, provider: ArticleProvider()) { entry in
             ArticleEntryWidgetView(entry: entry)
+                .invalidatableContent()
                 .containerBackground(for: .widget) { Color.clear }
         }
         .contentMarginsDisabled()
         .configurationDisplayName("My Widget")
         .description("This is an example widget.")
+        
+
     }
 }

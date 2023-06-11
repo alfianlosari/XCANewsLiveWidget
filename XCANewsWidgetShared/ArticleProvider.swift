@@ -8,13 +8,19 @@
 import Foundation
 import WidgetKit
 
+struct CachedArticle {
+    let timestamp: Date
+    let articles: [ArticleWidgetModel]
+}
+
 struct ArticleProvider: IntentTimelineProvider {
     
     typealias Entry = ArticleEntry
     typealias Intent = SelectCategoryIntent
     
-    private let newsAPI = NewsAPI.shared
-    private let urlSession = URLSession.shared
+    static let newsAPI = NewsAPI.shared
+    static let urlSession = URLSession.shared
+    static var cache: [Category: CachedArticle] = [:]
     
     func placeholder(in context: Context) -> ArticleEntry {
         .placeholder
@@ -37,17 +43,25 @@ struct ArticleProvider: IntentTimelineProvider {
     
     private func getArticleEntry(for category: Category) async -> ArticleEntry {
         let entry: ArticleEntry
+        let date = Date()
+
         do {
-            let articles = try await getArticles(for: category)
-            entry = articles.isEmpty ? .placeholder : .init(date: Date(), state: .articles(articles), category: category)
+            let articles: [ArticleWidgetModel]
+            if let cachedArticles = Self.cache[category], (Date().timeIntervalSince1970 - cachedArticles.timestamp.timeIntervalSince1970) < (60 * 60) {
+                articles = cachedArticles.articles
+            } else {
+                articles = try await Self.getArticles(for: category, pageSize: 20)
+                Self.cache[category] = .init(timestamp: date, articles: articles)
+            }
+            entry = articles.isEmpty ? .placeholder : .init(date: date, state: .articles(articles.shuffled()), category: category)
         } catch {
-            entry = .init(date: Date(), state: .failure(error), category: category)
+            entry = .init(date: date, state: .failure(error), category: category)
         }
         return entry
     }
     
-    private func getArticles(for category: Category) async throws -> [ArticleWidgetModel] {
-        let articles = try await newsAPI.fetch(from: category,  pageSize: 5)
+    static func getArticles(for category: Category, pageSize: Int = 5) async throws -> [ArticleWidgetModel] {
+        let articles = try await newsAPI.fetch(from: category,  pageSize: pageSize)
         
         return try await withThrowingTaskGroup(of: ArticleWidgetModel.self) { group in
             for article in articles {
@@ -63,7 +77,7 @@ struct ArticleProvider: IntentTimelineProvider {
         }
     }
     
-    private func fetchImageData(from article: Article) async -> ArticleWidgetModel {
+    static func fetchImageData(from article: Article) async -> ArticleWidgetModel {
         guard let url = article.imageURL,
               let (data, response) = try? await urlSession.data(from: url),
               let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {

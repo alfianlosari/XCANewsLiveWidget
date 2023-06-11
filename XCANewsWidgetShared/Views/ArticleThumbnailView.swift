@@ -19,10 +19,13 @@ struct ArticleThumbnailView: View {
             Color.black.opacity(0.35)
             
             VStack(alignment: .leading) {
-                
-                Text(category.text)
-                    .lineLimit(1)
-                    .font(.subheadline)
+                HStack {
+                    Text(category.text)
+                        .lineLimit(1)
+                        .font(.subheadline)
+                    Spacer()
+                    ShuffleNewsButtonView(category: category)
+                }
                     
                 Spacer()
                 
@@ -39,6 +42,18 @@ struct ArticleThumbnailView: View {
         .redacted(reason: article.isPlaceholder ? .placeholder : .init())
     }
 }
+                
+struct ShuffleNewsButtonView: View {
+    
+    let category: Category
+    
+    var body: some View {
+        Button(intent: ShuffleArticlesIntent(category: category.rawValue)) {
+            Image(systemName: "shuffle")
+        }
+    }
+}
+
 
 struct ArticleThumbnailView_Previews: PreviewProvider {
     
