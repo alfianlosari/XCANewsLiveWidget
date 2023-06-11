@@ -26,13 +26,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         completionHandler([.sound, .banner])
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        if let urlString = response.notification.request.content.userInfo["url"] as? String,
-           let url = URL(string: urlString) {
-            NotificationCenter.default.post(name: .articleSent, object: nil, userInfo: ["url": url])
-        }
-    }
-    
 }
 
 @main
@@ -40,7 +33,6 @@ struct XCANewsApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var articleBookmarkVM = ArticleBookmarkViewModel.shared
-    @StateObject private var connectivityVM = WatchConnectivityViewModel.shared
     
     @State var selectedArticleURL: URL? = nil
     
@@ -49,7 +41,6 @@ struct XCANewsApp: App {
             ContentView()
                 .environment(\.selectedArticleURL, $selectedArticleURL)
                 .environmentObject(articleBookmarkVM)
-                .onReceive(NotificationCenter.default.publisher(for: .articleSent), perform: handleOnReceiveNotification)
                 .onContinueUserActivity(activityTypeViewKey, perform: handleOnContinueUserActivity)
                 .onOpenURL { selectedArticleURL = $0 }
                 .sheet(item: $selectedArticleURL) {

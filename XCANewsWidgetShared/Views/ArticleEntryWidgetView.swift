@@ -9,7 +9,7 @@ import SwiftUI
 import WidgetKit
 
 struct ArticleEntryWidgetView: View {
-    
+       
     let entry: ArticleEntry
     @Environment(\.widgetFamily) private var widgetFamily
     
@@ -22,23 +22,17 @@ struct ArticleEntryWidgetView: View {
                 ArticleThumbnailView(article: articles[0], category: entry.category)
                     .widgetURL(articles[0].url)
                 
-                
             case .systemLarge:
                 ArticleEntryWidgetLargeView(articles: articles, category: entry.category)
                 
             case .systemExtraLarge:
                 ArticleEntryWidgetExtraLargeView(articles: articles, category: entry.category)
-                
 
             default: EmptyView()
             }
-            
         
         case .failure(let error):
-            
             Text(error.localizedDescription)
-            
-            
         }
     }
 }
@@ -57,10 +51,13 @@ struct ArticleEntryWidgetLargeView: View {
             }
             
             ArticleGroupView(articles: Array(articles.dropFirst().prefix(3)))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: .infinity, maxHeight:
+                        .infinity)
+                
                         
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        
     }
     
 }
@@ -87,46 +84,28 @@ struct ArticleEntryWidgetExtraLargeView: View {
     
 }
 
+#Preview("Small", as: .systemSmall, widget: {
+    XCANewsiOSWidget()
+}, timeline: {
+    ArticleEntry.stubArticles
+})
+
+#Preview("Medium", as: .systemMedium, widget: {
+    XCANewsiOSWidget()
+}, timeline: {
+    ArticleEntry.stubArticles
+})
+
+#Preview("Large", as: .systemLarge, widget: {
+    XCANewsiOSWidget()
+}, timeline: {
+    ArticleEntry.stubArticles
+})
+
+#Preview("XL", as: .systemExtraLarge, widget: {
+    XCANewsiOSWidget()
+}, timeline: {
+    ArticleEntry.stubArticles
+})
 
 
-
-
-struct ArticleEntryWidgetView_Previews: PreviewProvider {
-    
-    static let stubs = ArticleEntry.stubArticles
-    
-    static var previews: some View {
-        Group {
-            ArticleEntryWidgetView(entry: stubs)
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-            
-            ArticleEntryWidgetView(entry: stubs)
-                .previewContext(WidgetPreviewContext(family: .systemMedium))
-            
-            ArticleEntryWidgetView(entry: stubs)
-                .previewContext(WidgetPreviewContext(family: .systemLarge))
-            
-            
-            #if os(iOS)
-            ArticleEntryWidgetView(entry: stubs)
-                .previewContext(WidgetPreviewContext(family: .systemExtraLarge))
-            #endif
-            
-            ArticleEntryWidgetView(entry: .placeholder)
-                .previewContext(WidgetPreviewContext(family: .systemSmall))
-            
-            ArticleEntryWidgetView(entry: .placeholder)
-                .previewContext(WidgetPreviewContext(family: .systemMedium))
-            
-            ArticleEntryWidgetView(entry: .placeholder)
-                .previewContext(WidgetPreviewContext(family: .systemLarge))
-            
-            
-            #if os(iOS)
-            ArticleEntryWidgetView(entry: .placeholder)
-                .previewContext(WidgetPreviewContext(family: .systemExtraLarge))
-            #endif
-            
-        }
-    }
-}

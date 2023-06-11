@@ -62,7 +62,6 @@
 		8BB1DB5B268897CC0002F2AA /* news.json in Resources */ = {isa = PBXBuildFile; fileRef = 8BB1DB5A268897CC0002F2AA /* news.json */; };
 		8BB1DB5E2688987E0002F2AA /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB1DB5D2688987E0002F2AA /* Article.swift */; };
 		8BB1DB6026889A190002F2AA /* NewsAPIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB1DB5F26889A190002F2AA /* NewsAPIResponse.swift */; };
-		8BB618B726C7FD9C001A3B07 /* WatchConnectivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BB618B626C7FD9C001A3B07 /* WatchConnectivityViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,7 +150,6 @@
 		8BB1DB5A268897CC0002F2AA /* news.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = news.json; sourceTree = "<group>"; };
 		8BB1DB5D2688987E0002F2AA /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		8BB1DB5F26889A190002F2AA /* NewsAPIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsAPIResponse.swift; sourceTree = "<group>"; };
-		8BB618B626C7FD9C001A3B07 /* WatchConnectivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,7 +280,6 @@
 				8B23127C2688D57700E88E3A /* ArticleNewsViewModel.swift */,
 				8B317C21268825EF00DD4520 /* ArticleBookmarkViewModel.swift */,
 				8B317C2B2688363000DD4520 /* ArticleSearchViewModel.swift */,
-				8BB618B626C7FD9C001A3B07 /* WatchConnectivityViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -490,7 +487,6 @@
 				8BB1DB4F268896060002F2AA /* ContentView.swift in Sources */,
 				8B317C2A26882AFC00DD4520 /* DataStore.swift in Sources */,
 				8B02807B26EE50BE00C0BE46 /* CacheImplementation.swift in Sources */,
-				8BB618B726C7FD9C001A3B07 /* WatchConnectivityViewModel.swift in Sources */,
 				8B6D9F1E271AD29D00CB0475 /* XCANewsWidget.intentdefinition in Sources */,
 				8B23126E2688C49500E88E3A /* ArticleListView.swift in Sources */,
 				8B317C1E268818E800DD4520 /* EmptyPlaceholderView.swift in Sources */,

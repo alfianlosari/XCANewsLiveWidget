@@ -13,21 +13,20 @@ struct ArticleRowView: View {
     let article: ArticleWidgetModel
     
     var body: some View {
-        HStack {
+        HStack(alignment: .top) {
             if let imageData = article.imageData {
                 ImageBackgroundView(data: imageData)
-                    .frame(width: 50, height: 50)
+                    .frame(width: 40, height: 40)
                     .cornerRadius(8)
                     .clipped()
+            } else {
+                RoundedRectangle(cornerRadius: 8)
+                    .foregroundStyle(Color.gray.opacity(0.7))
+                    .frame(width: 40, height: 40)
             }
             
-            VStack(alignment: .leading, spacing: 4) {
-                Text(article.title)
-                    .lineLimit(1).font(.caption)
-                
-                Text(article.subtitle)
-                    .lineLimit(2).font(.subheadline.weight(.semibold))
-            }
+            Text(article.subtitle)
+                .lineLimit(2).font(.caption)
         }
         .redacted(reason: article.isPlaceholder ? .placeholder : .init())
     }
